@@ -1,0 +1,33 @@
+{% extends 'recetasapp/base.html' %}
+
+{% block titulo %}{{ ingrediente.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">{{ ingrediente.nombre }}</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Categoría:</strong> {{ ingrediente.categoria.nombre }}</p>
+            <p class="card-text">
+                <strong>Refrigerado:</strong> 
+                {% if ingrediente.refrigerado %}
+                    <span class="badge bg-info text-dark">Sí</span>
+                {% else %}
+                    <span class="badge bg-secondary">No</span>
+                {% endif %}
+            </p>
+            <p class="card-text"><strong>Medida:</strong> {{ ingrediente.medida }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{% url 'ingredientes_lista' %}" class="btn btn-secondary">
+                ⬅️ Volver
+            </a>
+            <a href="{% url 'ingrediente_editar' ingrediente.id %}" class="btn btn-warning">
+                ✏️ Editar
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
