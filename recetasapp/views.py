@@ -30,6 +30,24 @@ class IngredienteListView(ListView):
     template_name = 'recetasapp/ingredientes_lista.html'
     context_object_name = 'ingredientes'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        categoria_filtro = self.request.GET.get('categoria')
+        if categoria_filtro:
+            queryset = queryset.filter(categoria=categoria_filtro)
+
+        refrigerado_filtro = self.request.GET.get('refrigerado')
+        if refrigerado_filtro:  
+            queryset = queryset.filter(refrigerado=True)
+
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = CategoriaIngrediente.objects.all()  
+        return context
+
 def categoria_lista(request):
     categorias = CategoriaIngrediente.objects.all()
     contexto = {'categorias':categorias}
