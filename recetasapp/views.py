@@ -29,6 +29,8 @@ class IngredienteListView(ListView):
     model = Ingredientes
     template_name = 'recetasapp/ingredientes_lista.html'
     context_object_name = 'ingredientes'
+    paginate_by = 4
+
 
     def get_queryset(self):
         queryset = super().get_queryset()
