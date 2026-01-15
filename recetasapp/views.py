@@ -4,6 +4,8 @@ from .models import *
 from django.forms import formset_factory, modelformset_factory
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib import messages
+
 
 # Create your views here.
 def inicio(request):
@@ -87,6 +89,8 @@ class IngredienteNuevoView(CreateView):
     form_class = IngredienteForm
     template_name = 'recetasapp/ingrediente_form.html'
     success_url = reverse_lazy('ingredientes_lista')
+    
+
 
 def ingrediente_editar(request, pk):
     SetIngredienteFormSet = modelformset_factory(Ingredientes, form=SetIngredienteForm, extra=0)
@@ -108,6 +112,11 @@ class IngredienteEditarView(UpdateView):
     form_class = IngredienteForm
     template_name = 'recetasapp/ingrediente_form.html'
     success_url = reverse_lazy('ingredientes_lista')
+    def form_valid(self, form):
+        mensaje = super().form_valid(form)
+        messages.success(self.request, "Guardado correctamente")
+        return mensaje
+
 
 # def ingrediente_detalle(request, pk):
 #     ingrediente = get_object_or_404(Ingredientes, pk=pk)
