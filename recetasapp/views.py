@@ -5,6 +5,7 @@ from django.forms import formset_factory, modelformset_factory
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 # Create your views here.
@@ -107,15 +108,12 @@ def ingrediente_editar(request, pk):
     estado = 'editar'
     return render(request, 'recetasapp/ingrediente_form.html', {'formset': formset, 'estado': estado})
 
-class IngredienteEditarView(UpdateView):
+class IngredienteEditarView(SuccessMessageMixin,UpdateView):
     model = Ingredientes
     form_class = IngredienteForm
     template_name = 'recetasapp/ingrediente_form.html'
     success_url = reverse_lazy('ingredientes_lista')
-    def form_valid(self, form):
-        mensaje = super().form_valid(form)
-        messages.success(self.request, "Guardado correctamente")
-        return mensaje
+    success_message = "Guardado correctamente"
 
 
 # def ingrediente_detalle(request, pk):
